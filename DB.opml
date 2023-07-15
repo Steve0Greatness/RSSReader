@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+<head>
+<title>Feed Subscriptions</title>
+</head>
+<body>
+      <outline text="Leadhead" title="Leadhead" type="rss" 
+            xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC3_kehZbfRz-KrjXIqeIiPw" htmlUrl="https://www.youtube.com/channel/UC3_kehZbfRz-KrjXIqeIiPw"/>
+  <outline title="News" text="News">
+      <outline text="Philip DeFranco" title="Philip DeFranco" type="rss" 
+            xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UClFSU9_bUb4Rc6OYfTt5SPw" htmlUrl="https://www.youtube.com/channel/UClFSU9_bUb4Rc6OYfTt5SPw"/>
+  </outline>
+  <outline title="Tech" text="Tech">
+      <outline text="Blog on Tailscale" title="Blog on Tailscale" type="rss" 
+            xmlUrl="https://tailscale.com/blog/index.xml" htmlUrl="https://tailscale.com/blog/"/>
+  </outline>
+  <outline title="Mojo Lang" text="Mojo Lang">
+      <outline text="Mojo Announcements" title="Mojo Announcements" type="rss" 
+            xmlUrl="https://github.com/modularml/mojo/discussions/categories/announcements.atom" htmlUrl="https://github.com/modularml/mojo/discussions/categories/announcements"/>
+      <outline text="Mojo Lang Releases" title="Mojo Lang Releases" type="rss" 
+            xmlUrl="https://github.com/modularml/mojo/releases.atom" htmlUrl="https://github.com/modularml/mojo/releases"/>
+  </outline>
+</body>
+</opml>
