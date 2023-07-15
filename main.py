@@ -1,4 +1,4 @@
-import DBManager, CacheManager
+import DBManager, CacheManager, UserManager
 import feedparser
 import toml
 
@@ -18,5 +18,5 @@ def queryFeed(uri: str):
 if __name__ == "__main__":
     # queryFeed("https://reddit.com/r/doom/.rss")
     # print(CacheManager.cachePaths())
-    CacheManager.updateLastQueried()
+    print(UserManager.listUsers())
     pass
