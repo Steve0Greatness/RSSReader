@@ -84,6 +84,12 @@ def copyDB(copyToDir: str = "~/Downloads"):
     copyPath = os.path.expandUser(copyToDir)
     shutil.copyfile("BD.opml", copyPath)
 
+def dbStr() -> str:
+    """Returns a string copy of the db"""
+    with open("DB.opml") as file:
+        return file.read()
+
+
 def findFeed(feedTitle: str, category: str | None = None) -> Feed:
     for feed in feeds[category]:
         if feed.title != feedTitle:
