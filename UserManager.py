@@ -39,7 +39,7 @@ def addUser(username: str, login: str, preserveDB: bool = False, logOn: bool = F
         if preserveDB:
             DBData = file.read()
     if logOn:
-        loginWData(username, )
+        loginWData(username, DBData)
     DBData = cryptocode.encrypt(DBData, login)
     with open("./users/" + username + ".enc", "x") as file:
         file.write(DBData)
@@ -68,7 +68,8 @@ def changeUser(username: str, login: str):
     if not checkPassword(username, login):
         return
     currPass = login
-    loginWData()
+    with open("./users/" + username.replace(" ", "_") + ".enc") as file:
+        loginWData(username, cryptocode.decrypt(file.read(), login))
 
 def getReadPath(category: str | None, feed: str, uniqueId: str):
     """Get a path to read-status for ReadStatus.json"""
