@@ -1,9 +1,10 @@
 import cryptocode
 import xml.etree.ElementTree as ET
 import os, os.path
+import json
 from CacheManager import clearCacheDir
 
-loggedIn = None
+loggedIn: str | None = None
 
 
 """
@@ -61,3 +62,14 @@ def changeUser(username: str, login: str):
     if not checkPassword(username, login):
         return
     loginWData()
+
+def setRead(category: str | None, feed: str, status: bool = True):
+    readPath: list[str] | str = []
+    if isinstance(category, str):
+        readPath.append(category)
+    readPath.append(feed)
+    readPath = str(loggedIn) + "/" + cryptocode.encrypt("/".join(readPath))
+    with open("./ReadStatus.json", "w+") as file:
+        readData = json.loads(file.read())
+        readData[readPath] = status
+        json.dump(readData, file)
