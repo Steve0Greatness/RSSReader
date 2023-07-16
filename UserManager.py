@@ -63,13 +63,24 @@ def changeUser(username: str, login: str):
         return
     loginWData()
 
-def setRead(category: str | None, feed: str, status: bool = True):
+def getReadPath(category: str | None, feed: str, uniqueId: str):
     readPath: list[str] | str = []
     if isinstance(category, str):
         readPath.append(category)
     readPath.append(feed)
-    readPath = str(loggedIn) + "/" + cryptocode.encrypt("/".join(readPath))
+    return str(loggedIn) + "/" + cryptocode.encrypt("/".join(readPath) + "#" + uniqueId)
+
+def setRead(category: str | None, feed: str, uniqueId: str, status: bool = True):
+    """Set if an article is read"""
+    readPath = getReadPath(category, feed, uniqueId)
     with open("./ReadStatus.json", "w+") as file:
         readData = json.loads(file.read())
         readData[readPath] = status
         json.dump(readData, file)
+
+def getRead(category: str | None, feed: str, uniqueId: str):
+    """Get if an article is read"""
+    readPath = getReadPath(category, feed, uniqueId)
+    with open("./ReadStatus.json", "r") as file:
+        readData = json.loads(file.read())
+        return readPath in readData and readData[readPath]
