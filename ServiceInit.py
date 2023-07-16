@@ -12,27 +12,27 @@ def fileExists(dir: str) -> bool:
     """"""
     return exists(dir) and isfile(dir)
 
-def mkFile(dir: str) -> bool:
+def mkFile(dir: str, content: str = "") -> bool:
     """"""
     with open(dir, "x") as file:
-        file.write("")
+        file.write(content)
 
 def iniDir(dir: str):
     """"""
     if not dirExists(dir):
         mkdir(dir)
 
-def iniFile(dir: str):
+def iniFile(dir: str, content: str = ""):
     """"""
     if not fileExists(dir):
-        mkFile(dir)
+        mkFile(dir, content)
 
 FUNCTIONS: tuple[FunctionType] = (
     iniDir,
     iniFile
 )
 
-ACTIONS: tuple[tuple[str]] = (
+ACTIONS: tuple[tuple[str | tuple[str]]] = (
     (
         "./cache",
         "./users",
@@ -40,7 +40,8 @@ ACTIONS: tuple[tuple[str]] = (
     ),
     (
         "./users/images.toml",
-        "./ReadStatus.json"
+        "./ReadStatus.json",
+        ("./DB.opml", "<?xml version=\"1.0\" encoding=\"UTF-8\"?><opml version=\"1.0\"><head><title>Feed Subscriptions</title></head><body></body></opml>")
     )
 )
 
@@ -48,4 +49,7 @@ def main():
     for index, array in enumerate(ACTIONS):
         func = FUNCTIONS[index]
         for item in array:
+            if isinstance(item, tuple):
+                func(*item)
+                continue
             func(item)
