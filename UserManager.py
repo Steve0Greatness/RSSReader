@@ -5,6 +5,7 @@ import json
 from CacheManager import clearCacheDir
 
 loggedIn: str | None = None
+currPass: str | None = None
 
 
 """
@@ -68,9 +69,9 @@ def getReadPath(category: str | None, feed: str, uniqueId: str):
     if isinstance(category, str):
         readPath.append(category)
     readPath.append(feed)
-    return str(loggedIn) + "/" + cryptocode.encrypt("/".join(readPath) + "#" + uniqueId)
+    return str(loggedIn) + "/" + cryptocode.encrypt("/".join(readPath) + "#" + uniqueId, loggedIn)
 
-def setRead(category: str | None, feed: str, uniqueId: str, status: bool = True):
+def setReadStatus(category: str | None, feed: str, uniqueId: str, status: bool = True):
     """Set if an article is read"""
     readPath = getReadPath(category, feed, uniqueId)
     with open("./ReadStatus.json", "w+") as file:
@@ -78,9 +79,18 @@ def setRead(category: str | None, feed: str, uniqueId: str, status: bool = True)
         readData[readPath] = status
         json.dump(readData, file)
 
-def getRead(category: str | None, feed: str, uniqueId: str):
+def getReadStatus(category: str | None, feed: str, uniqueId: str):
     """Get if an article is read"""
     readPath = getReadPath(category, feed, uniqueId)
     with open("./ReadStatus.json", "r") as file:
         readData = json.loads(file.read())
         return readPath in readData and readData[readPath]
+
+def getReadArticles():
+    finalList: list[str] = []
+    with open("./ReadStatus.json", "r") as file:
+        readData: dict[str, bool] = json.loads(file.read())
+        for article, status in readData.items():
+            if not status or not article.startswith():
+                continue
+            finalList.append(cryptocode.decrypt(article[len(loggedIn):], loggedIn))
