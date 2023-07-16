@@ -53,3 +53,5 @@ def main():
                 func(*item)
                 continue
             func(item)
+
+main()

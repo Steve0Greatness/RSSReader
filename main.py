@@ -1,4 +1,4 @@
-import DBManager, CacheManager, UserManager, ServiceInit
+import ServiceInit, DBManager, CacheManager, UserManager
 
 
 if __name__ == "__main__":
