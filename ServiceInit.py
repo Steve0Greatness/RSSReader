@@ -4,6 +4,12 @@ from os import mkdir
 from os.path import exists, isdir, isfile
 from types import FunctionType
 
+from toml import dumps
+
+defaultSettings = dumps({
+    "timeBetweenReloads": 86_400_000
+})
+
 def dirExists(dir: str) -> bool:
     """"""
     return exists(dir) and isdir(dir)
@@ -41,7 +47,9 @@ ACTIONS: tuple[tuple[str | tuple[str]]] = (
     (
         "./users/images.toml",
         "./ReadStatus.json",
-        ("./DB.opml", "<?xml version=\"1.0\" encoding=\"UTF-8\"?><opml version=\"1.0\"><head><title>Feed Subscriptions</title></head><body></body></opml>")
+        ("./DB.opml", "<?xml version=\"1.0\" encoding=\"UTF-8\"?><opml version=\"1.0\"><head><title>Feed Subscriptions</title></head><body></body></opml>"),
+        ("./Settings.toml", defaultSettings),
+        "./FeedInfo.toml"
     )
 )
 

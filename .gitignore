@@ -3,3 +3,5 @@ users
 cache
 ReadStatus.json
 DB.opml
+Settings.toml
+FeedInfo.toml
