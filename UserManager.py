@@ -1,27 +1,30 @@
+""""""
+
 import cryptocode
 import xml.etree.ElementTree as ET
 import os, os.path
 import json
 from CacheManager import clearCacheDir
+from DBManager import dbStr
+
+# ./users
+# -   user-images
+# -   user-images.toml
+# -   <users...>.enc
 
 loggedIn: str | None = None
+""""""
+
 currPass: str | None = None
-
-
-"""
-
-./users
--   user-images
--   user-images.toml
--   <users...>.enc
-
-"""
+""""""
 
 def listUsers() -> list[str]:
+    """"""
     userDir = os.listdir("./users")
     return [ user.replace("_", " ")[:-4] for user in userDir if os.path.isfile("./users/" + user) and user.endswith(".enc") ]
 
 def loginWData(username: str, newData: str):
+    """"""
     global loggedIn
     with open("DB.opml", "w+") as file:
         file.write(newData)
@@ -29,7 +32,6 @@ def loginWData(username: str, newData: str):
 
 def addUser(username: str, login: str, preserveDB: bool = False, logOn: bool = False):
     """Adds an entry into the users dir for"""
-    global loggedIn
     clearCacheDir()
     username = username.replace(" ", "_")
     DBData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><opml version=\"1.0\"><head><title>Feed Subscriptions</title></head><body></body></opml>"
@@ -51,20 +53,25 @@ def requestDeletion(username: str):
     os.unlink(userFile)
 
 def checkPassword(username: str, login: str) -> bool:
+    """"""
     userFile = f"./users/{username}.enc"
     try:
         with open(userFile) as file:
-            ET.fromstring(cryptocode.decrypt(file.read(), login))
+            _ = ET.fromstring(cryptocode.decrypt(file.read(), login))
             return True
     except:
         return False
 
 def changeUser(username: str, login: str):
+    """Login as a different user"""
+    global currPass
     if not checkPassword(username, login):
         return
+    currPass = login
     loginWData()
 
 def getReadPath(category: str | None, feed: str, uniqueId: str):
+    """Get a path to read-status for ReadStatus.json"""
     readPath: list[str] | str = []
     if isinstance(category, str):
         readPath.append(category)
@@ -87,6 +94,7 @@ def getReadStatus(category: str | None, feed: str, uniqueId: str):
         return readPath in readData and readData[readPath]
 
 def getReadArticles():
+    """Get articles that have been marked as read."""
     finalList: list[str] = []
     with open("./ReadStatus.json", "r") as file:
         readData: dict[str, bool] = json.loads(file.read())
@@ -94,3 +102,10 @@ def getReadArticles():
             if not status or not article.startswith():
                 continue
             finalList.append(cryptocode.decrypt(article[len(loggedIn):], loggedIn))
+
+def updateProfile():
+    """"""
+    userFile = "./users/" + loggedIn.replace(" ", "_") + ".enc"
+    with open(userFile, "w+") as file:
+        database = dbStr()
+        file.write(cryptocode.encrypt(database, currPass))

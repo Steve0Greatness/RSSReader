@@ -1,3 +1,4 @@
+""""""
 import xml.etree.ElementTree as ET
 import shutil, os.path
 
@@ -89,8 +90,8 @@ def dbStr() -> str:
     with open("DB.opml") as file:
         return file.read()
 
-
 def findFeed(feedTitle: str, category: str | None = None) -> Feed:
+    """"""
     for feed in feeds[category]:
         if feed.title != feedTitle:
             continue

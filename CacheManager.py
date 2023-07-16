@@ -81,6 +81,7 @@ def querySingle(feed: Feed, feedCategory: str | None = None):
         xmlCache.write(requests.get(feed.xmlUrl))
 
 def getFeedContent(feedTitle: str, category: str | None) -> any:
+    """"""
     cachePath:        str  = getCachePath(feedTitle, category)
     inDataBase:       bool = feedInDB(feedTitle, category)
     cacheNonexistent: bool = not os.path.exists(cachePath)
@@ -91,4 +92,5 @@ def getFeedContent(feedTitle: str, category: str | None) -> any:
     return feedparser.parse(cachePath)
 
 def getAllFeedContents(showRead: bool = True):
+    """"""
     pass
